@@ -64,16 +64,72 @@
         <% } %>
       </div>
     </div>
-    <!-- Community Goals -->
-    <div class="card">
-      <h2>Community Goals</h2>
-      <p>City-wide Challenge:</p>
-      <p class="challenge-text">Reduce 1000kg CO₂ this week!</p>
-      <div class="progress-bar">
-        <div class="progress" style="width: <%= ((user.communityCO2 || 0) / 1000) * 100 %>%"></div>
-      </div>
-      <p><%= user.communityCO2 || 0 %>/1000 kg</p>
-    </div>
+   <!-- Refer and Earn -->
+<div class="card">
+  <h2>Refer and Earn</h2>
+  <p>Invite your friends to join EcoMiles and earn rewards!</p>
+  <button id="referButton" class="styled-button" onclick="generateReferralLink()">Generate Referral Link</button>
+  <p id="referralLink" style="margin-top: 10px;"></p>
+  <p class="bonus-text">Earn 200 points for every successful referral!</p>
+</div>
+
+<script>
+  function generateReferralLink() {
+    const referralCode = '<%= user.referralCode || "defaultCode123" %>'; // Placeholder for server-generated code
+    const referralLink = `${window.location.origin}/signup?ref=${referralCode}`;
+    
+    const linkElement = document.getElementById('referralLink');
+    linkElement.innerHTML = `Your referral link: <a href="${referralLink}" target="_blank">${referralLink}</a> <button class="copy-icon" onclick="copyToClipboard('${referralLink}')">📋</button>`;
+
+    alert('Your referral link has been generated! Share it to earn rewards.');
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Referral link copied to clipboard!');
+    }, () => {
+      alert('Failed to copy referral link.');
+    });
+  }
+</script>
+
+<style>
+  .styled-button {
+    background-color: #00A86B;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .styled-button:hover {
+    background-color: #03a800;
+  }
+
+  .copy-icon {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #00A86B;
+  }
+
+  .copy-icon:hover {
+    color: #00A86B;
+  }
+
+  .bonus-text {
+    color: #000000;
+    font-weight: bold;
+  }
+</style>
+
+<!-- Backend Integration Placeholder -->
+<!-- On new user signup, verify the referral code and add 200 points to the referrer's account in the database -->
 
     <!-- Tree Planting Progress -->
     <div class="card">
